@@ -1,0 +1,50 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.0'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'org.jetbrains.kotlin.jvm' version '2.0.21'
+	id 'org.jetbrains.kotlin.plugin.spring' version '2.0.21'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url = uri("https://maven.waltid.dev/releases") }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Kotlin依存関係
+	implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+
+	// SpringプロジェクトでKotlinの suspend funをJavaから使用する場合、kotlinx-coroutines-reactorを使用し、MonoやFluxに変換することが一般的
+	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3" // 最新バージョン
+
+//	// JavaからrunBlockingを呼び出すためには、kotlinx-coroutines-coreライブラリが必要
+//	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+
+	// walt-identity
+	implementation("id.walt.credentials:waltid-verifiable-credentials:0.9.0")
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+	kotlinOptions {
+		jvmTarget = "17"
+	}
+}
