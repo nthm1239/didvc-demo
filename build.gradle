@@ -37,6 +37,12 @@ dependencies {
 
 	// walt-identity
 	implementation("id.walt.credentials:waltid-verifiable-credentials:0.9.0")
+
+	// using the SimpleJWTCryptoProvider implementation, that's shipped with the waltid-sd-jwt library, which uses the nimbus-jose-jwt library for cryptographic operations.
+	implementation("com.nimbusds:nimbus-jose-jwt:9.47")
+
+	//　kotlinx.serialization の依存関係
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }
 
 tasks.named('test') {
